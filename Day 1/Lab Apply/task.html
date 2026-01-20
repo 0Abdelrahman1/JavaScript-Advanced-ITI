@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        let linkedList =
+        {
+            data: [],
+            Enqueue: function(val) 
+            {
+                let data = this.data;
+                if (data.length && data[0].value <= val)
+                    throw Error("ke5 kda");
+                data.unshift({values:val})
+            },
+            Push: function(val) 
+            {
+                let data = this.data;
+                if (data.length && data[data.length - 1].value >= val)
+                    throw Error("ke5 kda");
+                data.push({value:val});
+            },
+            Insert: function(val, pos) 
+            {
+                let data = this.data;
+                if (pos >= data.length || pos < 0 || data[pos].value <= val)
+                    throw Error("ke5 kda");
+                data.splice(pos, 0, {value:val});
+            },
+            Pop: function()
+            {
+                let data = this.data;
+                if (!data.length) 
+                    throw Error("ke5 kda");
+                data.pop();
+            },
+            Dequeue: function()
+            {
+                let data = this.data;
+                if (!data.length)
+                    throw Error("ke5 kda");
+                data.shift()
+            },
+            Remove: function(val, pos)
+            {
+                let data = this.data;
+                if (!data.length || data[pos].value != val)
+                    throw Error("ke5 kda");
+                let tmp = data[pos];
+                data = data.splice(pos, 1);
+            },
+            Display: function()
+            {
+                let data = this.data;
+                for (i in data)
+                    console.log(data[i])
+            }
+        }
+        //Test
+        linkedList.Enqueue(5)
+        linkedList.Enqueue(2)
+        // linkedList.Enqueue(10)
+        linkedList.Push(8)
+        linkedList.Push(10)
+        // linkedList.Push(9)
+        linkedList.Insert(4, 1)
+        // linkedList.Insert(6, 1)
+        linkedList.Remove(4, 1)
+        // linkedList.Remove(4, 1)
+        linkedList.Pop()
+        linkedList.Dequeue()
+        linkedList.Display()
+
+    </script>
+</body>
+</html>
