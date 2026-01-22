@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Box(height, width, length, material)
+        {
+            this.heigh = height;
+            this.width = width;
+            this.length = length;
+            this.volume = height * width * length;
+            this.material = material;
+            this.count = 0;
+            this.content = []
+            this.add = function(book)
+            {
+                let search = this.content.find((v) => { return book.title == v.title; });
+                if (search)
+                    search.numOfCopies += book.numOfCopies;
+                else
+                    this.content.push(book);
+                this.count += book.numOfCopies;
+            };
+            this.remove = function(title)
+            {
+                let search = this.content.find((v) => { return title == v.title; });
+                if (!search) return;
+                if (!--search.numOfCopies)
+                    this.content = this.content.filter((v) => {return title != v.title;});
+                this.count--;
+            };
+            this.valueOf = function()
+            {
+                return this.count;
+            }
+            this.toString = function()
+            {
+                return this.content;
+            }
+        }
+
+        function Book(title, numOfCopies = 1, numOfChapters, numOfPages, author, publisher)
+        {
+            this.title = title;
+            this.numOfCopies = numOfCopies;
+            this.numOfChapters = numOfChapters;
+            this.numOfPages = numOfPages;
+            this.author = author;
+            this.publisher = publisher;
+        }
+        
+        var box1 = new Box(5, 5, 5, 100, "blabla")
+        var box2 = new Box(15, 15, 15, 1100, "bla")
+
+        console.log(box1 + box2);
+        box1.add(new Book("b1", 5))
+        box2.add(new Book("b2"))
+        box2.add(new Book("b3"))
+        console.log(box1 + box2);
+        console.log(box2.toString())
+        box2.remove("b2")
+        console.log(box2.toString())
+        box2.remove("b5")
+        console.log(box2.toString())
+    </script>
+</body>
+</html>

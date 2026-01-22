@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        obj = 
+        {
+            id:123,
+            location: "sv",
+            addr: "123st",
+            getSetGen: function()
+            {
+                for (var prob in this)
+                    if (typeof this[prob] !== 'function')
+                        ~function (prob)
+                        {
+                            this["get" + prob] = function()
+                            {
+                                return this[prob];
+                            },
+                            this["set" + prob] = function(nw)
+                            {
+                                this[prob] = nw;
+                            };
+                        }.call(this, prob);
+            }
+        }
+
+        obj.getSetGen();
+        console.log(Object.keys(obj));
+        obj.setid(5);
+        console.log(obj);
+        console.log(obj.getid())
+        console.log(obj.id);
+        
+        
+        user = {name: "Ali", age:10}
+        obj.getSetGen.call(user);
+        console.log(Object.keys(user));
+
+        
+        console.log(user.getname())
+        user.setname("Ahmed")
+        console.log(user.getname())
+
+    </script>
+</body>
+</html>
