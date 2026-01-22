@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function Seq(start,end,step)
+        {
+            this.start = start;
+            this.end = end;
+            this.step = step;
+            var list = [];
+            var fill = function()
+            {
+                for (let i = start; i <= end; i += step)
+                    list.push(i);
+            };
+            fill();
+            // you can implement getter and setter for the list
+
+            this.append = function(val)
+            {
+                if (list.at(-1) == val - step)
+                    list.push(val);
+                else
+                    throw Error("ke5 kda");
+            }
+            this.pop = function()
+            {
+                if (list.length)
+                    list.pop();
+                else
+                    throw Error("ke5 kda");
+            }
+
+            this.toString = function()
+            {
+                let output = "["
+                for (i in list)
+                    output += list[i] + ","
+                console.log(output.substr(0, output.length - 1) + "]");
+            }
+        }
+
+
+        var even = new Seq(0,10, 2); // why calling toString()
+
+        even.append(12);
+        //even.append(11);
+        even.append(14);
+        even.pop()
+        console.log(even.toString())
+
+
+    </script>
+</body>
+</html>
