@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function Shape()
+            {
+                if (this.constructor == Shape)
+                    throw Error();
+            }
+
+            Object.defineProperty(Rectangle, 'count', {
+                value:0,
+                writable:true,
+                enumerable: false,
+                configurable:true
+            })
+            function Rectangle(l, w)
+            {
+                if (this.constructor == Rectangle)
+                {
+                    if (Rectangle.count == 1)
+                        throw Error();
+                    Rectangle.count++;
+                }
+                Shape.call(this);
+                var wid = w;
+                Object.defineProperty(this, 'length', {
+                    value: l,
+                    writable: false,
+                    enumerable: false,
+                    configurable: true
+                })
+                Object.defineProperty(this, 'width', {
+                    value: w,
+                    writable: false,
+                    enumerable: true,
+                    configurable: false
+                })
+            }
+            Object.setPrototypeOf(Rectangle.prototype, Shape.prototype);
+            Rectangle.prototype.toString = function()
+            {
+                console.log(`Rectangle: { length: ${this.length}, width: ${this.width}, area: ${this.area()}, perimeter: ${this.perimeter()} } `)
+            }
+            Rectangle.prototype.valueOf = function()
+            {
+                return this.area();
+            }
+            Rectangle.prototype.area = function()
+            {
+                return this.length * this.width;
+            }
+            Rectangle.prototype.perimeter = function()
+            {
+                return (this.length + this.width) * 2;
+            }
+
+
+            Object.defineProperty(Square, 'count', {
+                value:0,
+                writable:true,
+                enumerable: false,
+                configurable:false
+            })
+            function Square(l)
+            {
+                if (this.constructor == Square)
+                {
+                    if (Square.count == 1)
+                        throw Error();
+                    Square.count++;
+                }
+                Rectangle.call(this, l, l);
+            }
+            Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
+            Square.prototype.toString = function ()
+            {
+                console.log(`Square: { length: ${this.length}, area: ${this.area()}, perimeter: ${this.perimeter()} } `)
+            }
+            
+            //var sh = new Shape();
+            var sq = new Square(5);
+            var rec = new Rectangle(5, 10);
+            //var rec2 = new Rectangle(5, 10);
+            //var sq2 = new Square(5);
+            console.log(sq);
+            console.log(sq.toString());
+            console.log(rec);
+            console.log(rec.toString());
+            sq.width = 10;
+            console.log(sq.width);
+            console.log(sq);
+
+            console.log(sq + sq)
+            console.log(sq + rec)
+            console.log(rec + rec)
+        </script>
+    </body>
+</html>
