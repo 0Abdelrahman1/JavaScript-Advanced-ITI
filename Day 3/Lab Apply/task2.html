@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body>
+        <script>
+            function Vehicle(spd, clr)
+            {
+                if (typeof spd != 'number') throw Error();
+                if (typeof clr != 'number') throw Error();
+                let speed = spd;
+                let color = clr;
+                Object.defineProperty(this, 'speed', {
+                    set: function (spd) { if (typeof spd !== 'number') throw Error(); speed = spd; },
+                    get: function () { return speed; },
+                    enumerable: true,
+                    configurable: true
+                })
+                Object.defineProperty(this, 'color', {
+                    set: function (clr) { if (typeof clr !== 'number') throw Error(); color = clr; },
+                    get: function () { return color; },
+                    enumerable: true,
+                    configurable: true
+                })
+            }
+            Vehicle.prototype.turnLeft = function() { console.log("turnLeft()"); }
+            Vehicle.prototype.turnRight = function() { console.log("turnRight()"); }
+            Vehicle.prototype.start = function() { console.log("start()"); }
+            Vehicle.prototype.stop = function() { console.log("stop()"); }
+            Vehicle.prototype.goBackward = function(speed, accel) { console.log(`goBackward(${speed}, ${accel})`); }
+            Vehicle.prototype.goForward = function(speed, accel) { console.log(`goForward(${speed}, ${accel})`); }
+            Vehicle.prototype.toString = function() { return "{Vehicle}"; }
+            Vehicle.prototype.valueOf = function() { return "{Vehicle}"; }
+
+            function Bicycle(vehicle)
+            {
+                if (vehicle.constructor != Vehicle) throw Error();
+                Vehicle.call(this, vehicle.speed, vehicle.color);
+            }
+            Object.setPrototypeOf(Bicycle.prototype, Vehicle.prototype);
+            Bicycle.prototype.ringBell = function() { console.log(`ringBell()`) }
+            Bicycle.prototype.toString = function() { return "{Bicycle}"; }
+            Bicycle.prototype.valueOf = function() { return "{Bicycle}"; }
+
+            function MotorVehicle(vehicle, SOE, LP)
+            {
+                if (vehicle.constructor != Vehicle) throw Error();
+                if (typeof SOE != 'number') throw Error();
+                if (typeof LP != 'string') throw Error();
+                Vehicle.call(this, vehicle.speed, vehicle.color);
+                let sizeOfEngine = SOE;
+                let licencePlate = LP;
+                Object.defineProperty(this, 'sizeOfEngine', {
+                    set: function(SOE) { if (typeof SOE !== 'number') throw Error(); sizeOfEngine = SOE; },
+                    get: function() { return sizeOfEngine; },
+                    enumerable: true,
+                    configurable: false
+                })
+                Object.defineProperty(this, 'licencePlate', {
+                    set: function(LP) { if (typeof LP !== 'string') throw Error(); licencePlate = LP; },
+                    get: function() { return licencePlate; },
+                    enumerable: false,
+                    configurable: true
+                })
+            }
+            Object.setPrototypeOf(MotorVehicle.prototype, Vehicle.prototype)
+            MotorVehicle.prototype.getSizeOfEngine = function() { console.log(`getSizeOfEngine()`); }
+            MotorVehicle.prototype.getLicencePlate = function() { console.log(`getLicencePlate()`); }
+            MotorVehicle.prototype.toString = function() { return "{MotorVehicle}"; }
+            MotorVehicle.prototype.valueOf = function() { return "{MotorVehicle}"; }
+
+            function DumpTruck(vehicle, motorVehicle, LC, NW, W)
+            {
+                if (vehicle.constructor != Vehicle) throw Error();
+                if (motorVehicle.constructor != MotorVehicle) throw Error();
+                if (typeof LC != 'number') throw Error();
+                if (typeof NW != 'number') throw Error();
+                if (typeof W != 'number') throw Error();
+                MotorVehicle.call(this, vehicle, motorVehicle.sizeOfEngine, motorVehicle.licencePlate);
+                let loadCapacity = LC;
+                let numWheels = NW;
+                let weight = W;
+                Object.defineProperty(this, 'loadCapacity', {
+                    set: function(LC) { if (typeof LC != 'number') throw Error(); loadCapacity = LC;},
+                    enumerable: false,
+                    configurable: false
+                })
+                Object.defineProperty(this, 'numWheels', {
+                    set: function(NW) { if (typeof NW != 'number') throw Error(); numWheels = NW;},
+                    enumerable: false,
+                    configurable: false
+                })
+                Object.defineProperty(this, 'weight', {
+                    set: function(W) { if (typeof W != 'number') throw Error(); weight = W;},
+                    enumerable: false,
+                    configurable: false
+                })
+            }
+            Object.setPrototypeOf(DumpTruck.prototype, MotorVehicle.prototype);
+            DumpTruck.prototype.lowerLoad = function() { console.log("lowerLoad()"); }
+            DumpTruck.prototype.raiseLoad = function() { console.log("raiseLoad()"); }
+            DumpTruck.prototype.toString = function() { return "{DumpTruck}"; }
+            DumpTruck.prototype.valueOf = function() { return "{DumpTruck}"; }
+
+            function Car(vehicle, motorVehicle, NOD, NW, W)
+            {
+                if (vehicle.constructor != Vehicle) throw Error();
+                if (motorVehicle.constructor != MotorVehicle) throw Error();
+                if (typeof NOD != 'number') throw Error();
+                if (typeof NW != 'number') throw Error();
+                if (typeof W != 'number') throw Error();
+                MotorVehicle.call(this, vehicle, motorVehicle.sizeOfEngine, motorVehicle.licencePlate);
+                let numOfDoors = NOD;
+                let numWheels = NW;
+                let Weight = W;
+                Object.defineProperty(this, 'numOfDoors', {
+                    get: function() { return numOfDoors; }
+                })
+                Object.defineProperty(this, 'numWheels', {
+                    get: function() { return numWheels; }
+                })
+                Object.defineProperty(this, 'weight', {
+                    get: function() { return weight; }
+                })
+            }
+            Object.setPrototypeOf(Car.prototype, MotorVehicle.prototype);
+            Car.prototype.switchOnAirCon = function() { console.log("switchOnAirCon()") }
+            Car.prototype.getNumOfDoors = function() { console.log("getNumOfDoors()") }
+            Car.prototype.toString = function() { return "{Car}"; }
+            Car.prototype.valueOf = function() { return "{Car}"; }
+
+            let v = new Vehicle(1, 2);
+            let b = new Bicycle(v);
+            let m = new MotorVehicle(v, 1, "2")
+            let d = new DumpTruck(v, m, 1, 2, 3);
+            let c = new Car(v, m, 1, 2, 3);
+            
+            console.log(v);
+            console.log(b);
+            console.log(m);
+            console.log(d);
+            console.log(c);
+        </script>
+    </body>
+</html>
